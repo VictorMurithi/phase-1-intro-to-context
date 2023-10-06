@@ -1,17 +1,18 @@
 // Your code here
-function createEmployeeRecord(firstName, familyName, title, payPerHour) {
-    return {
-        firstName: firstName,
-        familyName: familyName,
-        title: title,
-        payPerHour: payPerHour,
-        timeInEvents: [],
-        timeOutEvents: []
+function createEmployeeRecord(array) {
+    const employeeRecord = {
+      firstName: array[0],
+      familyName: array[1],
+      title: array[2],
+      payPerHour: array[3],
+      timeInEvents: [],
+      timeOutEvents: [],
     };
+    return employeeRecord;
 }
-function createEmployeeRecords(arrayOfArrays) {
-    return arrayOfArrays.map(employeeArray => {
-        return createEmployeeRecord(...employeeArray);
+function createEmployeeRecords(employeeDataArray) {
+    return employeeDataArray.map(function (employeeData) {
+      return createEmployeeRecord(employeeData);
     });
 }
 function createTimeInEvent(employeeRecord, dateStamp) {
@@ -37,15 +38,17 @@ function createTimeOutEvent(employeeRecord, dateStamp) {
     return employeeRecord;
 }
 function hoursWorkedOnDate(employeeRecord, date) {
-    const timeIn = employeeRecord.timeInEvents.find(event => event.date === date);
-    const timeOut = employeeRecord.timeOutEvents.find(event => event.date === date);
+    const timeInEvent = employeeRecord.timeInEvents.find((event) => event.date === date);
+    const timeOutEvent = employeeRecord.timeOutEvents.find((event) => event.date === date);
+  
     if (timeInEvent && timeOutEvent) {
-        const hoursWorked = (timeOut.hour - timeIn.hour) / 100;
-        return hoursWorked;
+      const hoursWorked = (timeOutEvent.hour - timeInEvent.hour) / 100;
+      return hoursWorked;
     } else {
-        return 0;
+      return 0;
     }
-}
+  }
+  
 function wagesEarnedOnDate(employeeRecord, date) {
     const hoursWorked = hoursWorkedOnDate(employeeRecord, date);
     const amountOwed = hoursWorked * employeeRecord.payPerHour;
